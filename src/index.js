@@ -40,13 +40,15 @@ const buttonElement = () => {
   btnDelete.classList.add('borderStyle');
   btnDelete.type = 'button';
   btnDelete.addEventListener('click', () => {
-    deleteAllCompleted(todoArray);
-    const deleteBtn = document.querySelectorAll('.spanbtn');
-    todoArray.forEach((todo, index) => {
-      if (todo.completed === true) {
-        deleteBtn[index].parentNode.remove();
-      }
-    });
+    if (todoArray.length > 0) {
+      deleteAllCompleted(todoArray);
+      const deleteBtn = document.querySelectorAll('.spanbtn');
+      todoArray.forEach((todo, index) => {
+        if (todo.completed === true) {
+          deleteBtn[index].parentNode.remove();
+        }
+      });
+    }
   });
   return btnDelete;
 };
@@ -85,14 +87,17 @@ addForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const value = { description: inputValue.value, completed: false, index: todoArray.length + 1 };
   addNewTask(todoArray, value);
-  const element = `
+  let element = '';
+  todoArray.forEach((todo) => {
+    element += `
     <li class='borderStyle'>
-    <input class='status' ${value.completed ? 'checked' : undefined}  type='checkbox' id='${value.index}'/>
-    <input class='formel' type="text" id="description" name="description" value='${value.description}'>
+    <input class='status' ${todo.completed ? 'checked' : undefined}  type='checkbox' id='${todo.index}'/>
+    <input class='formel' type="text" id="description" name="description" value='${todo.description}'>
     <span class='spanbtn'>&#8942;</span>
     </li>
     `;
-  listContent.innerHTML += element;
+  });
+  listContent.innerHTML = element;
   statusChange();
   deleteFunction();
   EditFunction();
