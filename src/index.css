@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.borderStyle {
+  border: 1px solid #f1f1f1;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.listContent {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: start;
+}
+
+.listContent li {
+  width: 100%;
+  padding: 10px;
+}
+
+.inputValue {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #f1f1f1;
+}
+
+.btn {
+  width: 100%;
+  background-color: #f6f6f6;
+  color: #b0b0b0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  width: 100%;
+  padding: 10px;
+}
+
+label {
+  margin-left: 20px;
+}
+
+.todoPlaceholder {
+  width: 30%;
+  height: auto;
+  box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
+  -webkit-box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
+  -moz-box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
+}
