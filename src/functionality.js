@@ -15,9 +15,19 @@ const deleteTask = (array, id) => {
 
 const editTask = (array, id, value) => {
   const edit = {
-    description: value, completed: false, index: id,
+    description: value, completed: false, index: id + 1,
   };
   array.splice(id, 1, edit);
   localStorage.setItem('todoArray', JSON.stringify(array));
 };
-export { addNewTask, deleteTask, editTask };
+
+const deleteAllCompleted = (array) => {
+  const newArray = array.filter((element) => element.completed === false);
+  for (let idx = 0; idx < newArray.length; idx += 1) {
+    newArray[idx].index = idx + 1;
+  }
+  localStorage.setItem('todoArray', JSON.stringify(newArray));
+};
+export {
+  addNewTask, deleteTask, editTask, deleteAllCompleted,
+};

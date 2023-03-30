@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import './index.css';
-import { addNewTask, editTask, deleteTask } from './functionality.js';
+import {
+  addNewTask, editTask, deleteTask, deleteAllCompleted,
+} from './functionality.js';
+import updateStatus from './status.js';
 
 const addForm = document.querySelector('.addForm');
 const todoPlaceholder = document.querySelector('.todoPlaceholder');
@@ -19,7 +22,7 @@ const component = () => {
   filteredArray.forEach((todo) => {
     content += `
     <li class='borderStyle'>
-    <input  ${todo.completed ? 'checked' : undefined} type='checkbox' id='${todo.index}'/>
+    <input class='status'  ${todo.completed ? 'checked' : undefined} type='checkbox' id='${todo.index}'/>
     <input class='formel' type="text" id="description" name="description" value='${todo.description}'>
     <span class='spanbtn'>&#8942;</span>
     </li>
@@ -36,6 +39,15 @@ const buttonElement = () => {
   btnDelete.classList.add('btn');
   btnDelete.classList.add('borderStyle');
   btnDelete.type = 'button';
+  btnDelete.addEventListener('click', () => {
+    deleteAllCompleted(todoArray);
+    const deleteBtn = document.querySelectorAll('.spanbtn');
+    todoArray.forEach((todo, index) => {
+      if (todo.completed === true) {
+        deleteBtn[index].parentNode.remove();
+      }
+    });
+  });
   return btnDelete;
 };
 todoPlaceholder.appendChild(component());
@@ -53,11 +65,18 @@ const deleteFunction = () => {
 };
 const EditFunction = () => {
   const formsElements = document.querySelectorAll('.formel');
-
   formsElements.forEach((formel, index) => {
     formel.addEventListener('input', (e) => {
       e.preventDefault();
       editTask(todoArray, index, e.target.value);
+    });
+  });
+};
+const statusChange = () => {
+  const checkboxInput = document.querySelectorAll('.status');
+  checkboxInput.forEach((checkbox, index) => {
+    checkbox.addEventListener('click', (e) => {
+      updateStatus(todoArray, index, e.target.checked);
     });
   });
 };
@@ -68,15 +87,17 @@ addForm.addEventListener('submit', (e) => {
   addNewTask(todoArray, value);
   const element = `
     <li class='borderStyle'>
-    <input ${value.completed ? 'checked' : undefined} type='checkbox' id='${value.index}'/>
+    <input class='status' ${value.completed ? 'checked' : undefined}  type='checkbox' id='${value.index}'/>
     <input class='formel' type="text" id="description" name="description" value='${value.description}'>
     <span class='spanbtn'>&#8942;</span>
     </li>
     `;
   listContent.innerHTML += element;
+  statusChange();
   deleteFunction();
   EditFunction();
 });
 
 deleteFunction();
 EditFunction();
+statusChange();
