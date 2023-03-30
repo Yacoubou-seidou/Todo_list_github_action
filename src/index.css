@@ -25,6 +25,9 @@ body {
 
 .listContent li {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 10px;
 }
 
@@ -46,13 +49,18 @@ body {
   text-decoration: underline;
 }
 
+span {
+  content: "\22EE";
+  cursor: pointer;
+}
+
+span:hover {
+  color: #b0b0b0;
+}
+
 h1 {
   width: 100%;
   padding: 10px;
-}
-
-label {
-  margin-left: 20px;
 }
 
 .todoPlaceholder {
@@ -61,4 +69,14 @@ label {
   box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
   -webkit-box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
   -moz-box-shadow: 14px 3px 19px 7px rgba(239, 238, 238, 0.86);
+}
+
+#description {
+  border: none;
+  margin-left: 20px;
+  width: 60%;
+}
+
+#description:focus {
+  border: 0;
 }

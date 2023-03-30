@@ -1,9 +1,16 @@
 import _ from 'lodash';
 import './index.css';
+import { addNewTask, editTask, deleteTask } from './functionality.js';
 
+const addForm = document.querySelector('.addForm');
 const todoPlaceholder = document.querySelector('.todoPlaceholder');
+const inputValue = document.querySelector('.inputValue');
 
-const todoArray = [{ description: 'Wash Car', completed: false, index: 1 }, { description: 'Call Friends', completed: false, index: 2 }, { description: 'Submit Project', completed: false, index: 3 }];
+let todoArray = [];
+const localData = localStorage.getItem('todoArray');
+if (localData) {
+  todoArray = JSON.parse(localData);
+}
 
 const component = () => {
   const element = document.createElement('ul');
@@ -12,8 +19,9 @@ const component = () => {
   filteredArray.forEach((todo) => {
     content += `
     <li class='borderStyle'>
-    <input checked=${todo.completed} type='checkbox' id='${todo.index}'/>
-    <label for='${todo.index}'>${todo.description}</label>
+    <input  ${todo.completed ? 'checked' : undefined} type='checkbox' id='${todo.index}'/>
+    <input class='formel' type="text" id="description" name="description" value='${todo.description}'>
+    <span class='spanbtn'>&#8942;</span>
     </li>
     `;
   });
@@ -32,3 +40,43 @@ const buttonElement = () => {
 };
 todoPlaceholder.appendChild(component());
 todoPlaceholder.appendChild(buttonElement());
+const listContent = document.querySelector('.listContent');
+const deleteFunction = () => {
+  const deleteBtn = document.querySelectorAll('.spanbtn');
+
+  deleteBtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      deleteTask(todoArray, index);
+      btn.parentNode.remove();
+    });
+  });
+};
+const EditFunction = () => {
+  const formsElements = document.querySelectorAll('.formel');
+
+  formsElements.forEach((formel, index) => {
+    formel.addEventListener('input', (e) => {
+      e.preventDefault();
+      editTask(todoArray, index, e.target.value);
+    });
+  });
+};
+
+addForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const value = { description: inputValue.value, completed: false, index: todoArray.length + 1 };
+  addNewTask(todoArray, value);
+  const element = `
+    <li class='borderStyle'>
+    <input ${value.completed ? 'checked' : undefined} type='checkbox' id='${value.index}'/>
+    <input class='formel' type="text" id="description" name="description" value='${value.description}'>
+    <span class='spanbtn'>&#8942;</span>
+    </li>
+    `;
+  listContent.innerHTML += element;
+  deleteFunction();
+  EditFunction();
+});
+
+deleteFunction();
+EditFunction();
