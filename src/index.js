@@ -28,7 +28,6 @@ const component = () => {
     </li>
     `;
   });
-  // Lodash, now imported by this script
   element.innerHTML = _.join([content], ' ');
   element.classList.add('listContent');
   return element;
