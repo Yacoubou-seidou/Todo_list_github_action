@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import './index.css';
 import {
   addNewTask, editTask, deleteTask, deleteAllCompleted,
 } from './functionality.js';
@@ -28,7 +26,7 @@ const component = () => {
     </li>
     `;
   });
-  element.innerHTML = _.join([content], ' ');
+  element.innerHTML = content;
   element.classList.add('listContent');
   return element;
 };
